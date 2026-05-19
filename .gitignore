@@ -39,3 +39,61 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.gstack/
+
+# RadPi — keep weights, venv, and big media out
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/static/
+backend/weights/
+backend/*.log
+backend/temp_*
+backend/yolov8n.pt
+Models/
+*.MOV
+*.mov
+*.mp4
+*.mp3
+*.pt
+*.h5
+*.pth
+*.bin
+*.safetensors
+*.hdf5
+*.onnx
+*.tflite
+
+# claude / agent tooling we don't want committed
+.claude/
+.claude-flow/
+.mcp.json
+CLAUDE.md.*.bak
+
+# scratch / generated docs (big PDFs)
+*.pdf
+!RADPI_MODEL_COMPARISON.pdf
+
+# RadPi-specific — big binary files
+backend/venv/
+backend/__pycache__/
+backend/models/__pycache__/
+backend/static/
+backend/weights/
+backend/*.log
+backend/temp_*
+Models/
+*.MOV
+*.mp4
+*.mov
+*.mp3
+*.pt
+*.h5
+*.pth
+*.bin
+*.safetensors
+*.hdf5
+*.onnx
+
+# Logs
+*.log

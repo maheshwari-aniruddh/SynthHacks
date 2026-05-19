@@ -2,6 +2,36 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@theme {
+  /* Diagnostic Palette (Warm) */
+  --color-diag-bg: #FFF8F1;
+  --color-diag-heading: #1F1A17;
+  --color-diag-body: #5B534D;
+  --color-diag-primary: #D20A2E;
+  --color-diag-primary-hover: #B20A27;
+  --color-diag-secondary: #FFD700;
+  --color-diag-secondary-hover: #E6C200;
+  --color-diag-card: #FFF3D6;
+  --color-diag-border: #E8D9C8;
+  --color-diag-muted: #C9B8A6;
+
+  /* Teaching Palette (Light) */
+  --color-teach-bg: #F8F6F3;
+  --color-teach-bg-elevated: #EFE9E1;
+  --color-teach-card: #F3F0EC;
+  --color-teach-accent-deep: #EBF8FF;
+  --color-teach-accent-bright: #38BDF8;
+  --color-teach-accent-glow: transparent;
+  --color-teach-text-primary: #1F1A17;
+  --color-teach-text-secondary: #5B534D;
+  --color-teach-text-muted: #9B8E84;
+  --color-teach-border: #E8D9C8;
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -46,75 +76,43 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Required for the Anomalous Matter Hero component */
+  --color-sky-300: 203 92% 53%;
+  --color-gray-300: 0 0% 70%;
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #FFF8F1;
+  --foreground: #1F1A17;
+  --card: #FFF3D6;
+  --card-foreground: #1F1A17;
+  --popover: #FFF3D6;
+  --popover-foreground: #1F1A17;
+  --primary: #D20A2E;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFD700;
+  --secondary-foreground: #1F1A17;
+  --muted: #FFF3D6;
+  --muted-foreground: #5B534D;
+  --accent: #FFD700;
+  --accent-foreground: #1F1A17;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --border: #E8D9C8;
+  --input: #E8D9C8;
+  --ring: #D20A2E;
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @layer base {
