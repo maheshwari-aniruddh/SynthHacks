@@ -1,15 +1,25 @@
-fastapi
-uvicorn
-python-multipart
-torch
-torchvision
-ultralytics
-opencv-python-headless
-numpy
-pillow
-torchxrayvision
+# Pi 5 (ARM64): install torch/torchvision from https://torch.kmtea.eu/whl/stable
+# pip install -r requirements.txt --extra-index-url https://torch.kmtea.eu/whl/stable
+fastapi>=0.110.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+torch>=2.5.0
+torchvision>=0.20.0
+Pillow>=10.0.0
+numpy>=1.26.4
+opencv-python-headless>=4.9.0.0
+pydicom>=2.4.0
+torchxrayvision>=1.0.0
+ultralytics>=8.3.0
+transformers>=4.40.0
+safetensors
+scikit-learn>=1.5.0
+scipy>=1.13.0
+tensorflow>=2.16.0
+tf-keras>=2.16.0
 huggingface_hub
 requests
 onnxruntime
 scikit-image
 matplotlib
+llama-cpp-python>=0.2.85

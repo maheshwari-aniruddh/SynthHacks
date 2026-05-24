@@ -16,17 +16,13 @@ export function SpotlightCard({
   ...props
 }: SpotlightCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
-
     const rect = containerRef.current.getBoundingClientRect();
-    setPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    containerRef.current.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
+    containerRef.current.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
   }, []);
 
   const handleMouseEnter = () => setOpacity(1);
@@ -57,12 +53,12 @@ export function SpotlightCard({
       }}
       {...props}
     >
-      {/* Spotlight Glow */}
+      {/* Spotlight Glow — uses CSS custom properties for position */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-500"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, ${colors[glowColor]}, transparent 40%)`,
+          background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${colors[glowColor]}, transparent 40%)`,
         }}
       />
 

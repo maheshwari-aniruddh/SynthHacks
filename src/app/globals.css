@@ -13,7 +13,7 @@
   --color-diag-secondary-hover: #E6C200;
   --color-diag-card: #FFF3D6;
   --color-diag-border: #E8D9C8;
-  --color-diag-muted: #C9B8A6;
+  --color-diag-muted: #7A6A5E;
 
   /* Teaching Palette (Light) */
   --color-teach-bg: #F8F6F3;
@@ -27,9 +27,20 @@
   --color-teach-text-muted: #9B8E84;
   --color-teach-border: #E8D9C8;
 
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
+  /* Abstracted Theme Palette mappings */
+  --color-surface-1: #FFF8F1;
+  --color-surface-2: #F8F6F3;
+  --color-surface-3: #F3F0EC;
+  --color-surface-4: #E8D9C8;
+  --color-ink: #1F1A17;
+  --color-ink-muted: #5B534D;
+  --color-ink-faint: #9B8E84;
+  --color-cherry: #D20A2E;
+  --color-cherry-hover: #B20A27;
+
+  --font-display: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -113,6 +124,20 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.2);
 }
 
 @layer base {

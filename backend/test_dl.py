@@ -1,4 +1,5 @@
 import os
+import shutil
 from huggingface_hub import hf_hub_download
 import requests
 
@@ -7,7 +8,8 @@ os.makedirs("../Models", exist_ok=True)
 def download_hf(repo_id, filename, save_name):
     try:
         path = hf_hub_download(repo_id=repo_id, filename=filename)
-        os.system(f"cp {path} ../Models/{save_name}")
+        # Fix #24: use shutil.copy instead of os.system("cp ...") to avoid shell injection
+        shutil.copy(path, f"../Models/{save_name}")
         print(f"Success: {save_name}")
     except Exception as e:
         print(f"Failed HF {repo_id}: {e}")
@@ -32,6 +34,3 @@ download_hf("SubGlitch1/DentalXrayAI", "best.pt", "dental_yolov8.pt")
 
 # Skin Cancer
 download_hf("HugsVision/Skin-Cancer", "best_model.pth", "skin_cancer_efficientnetv2s.h5")
-
-# Fundus
-download_hf("jdelgado2002/diabetic_retinopathy_detection", "pytorch_model.bin", "dr_mobilenetv3.pth")

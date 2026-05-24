@@ -8,7 +8,6 @@ models_to_download = [
     ("adeebaai/bone-fracture-yolov8", "best.pt", "bone_fracture_seg_yolov8m.pt"),
     ("LazerX69/Dental-anomalies-yolov8", "best.pt", "dental_yolov8.pt"),
     ("bsenst/skin-cancer-HAM10k", "xception_v4_1_07_0.699.h5", "skin_cancer_efficientnetv2s.h5"),
-    ("sadashivb/diabetic-retinopathy-resnet50", "resnet50_diabretino.pth", "dr_mobilenetv3.pth"),
 ]
 
 for repo_id, filename, save_name in models_to_download:

@@ -1,5 +1,5 @@
-import { useRef, useCallback } from "react";
-import { motion, useSpring } from "motion/react";
+import { useRef, useCallback, useMemo } from "react";
+import { motion, useSpring, useMotionValue, MotionValue } from "motion/react";
 
 const PANEL_COUNT = 22;
 const WAVE_SPRING = { stiffness: 160, damping: 22, mass: 0.6 };
@@ -57,10 +57,17 @@ const GRADIENT_OVERLAYS = [
   "linear-gradient(135deg, rgba(210,10,46,0.48) 0%, rgba(210,10,46,0.30) 100%)",
 ];
 
-function Panel({ index, total, waveY, scaleY }: {
-  index: number; total: number;
-  waveY: ReturnType<typeof useSpring>;
-  scaleY: ReturnType<typeof useSpring>;
+/** Panel receives its spring values as props — no hooks called inside */
+function Panel({
+  index,
+  total,
+  waveY,
+  scaleY,
+}: {
+  index: number;
+  total: number;
+  waveY: MotionValue<number>;
+  scaleY: MotionValue<number>;
 }) {
   const t = index / (total - 1);
   const baseZ = (index - (total - 1)) * Z_SPREAD;
@@ -73,60 +80,183 @@ function Panel({ index, total, waveY, scaleY }: {
   return (
     <motion.div
       className="absolute rounded-xl pointer-events-none overflow-hidden"
-      style={{ width: w, height: h, marginLeft: -w/2, marginTop: -h/2,
-        translateZ: baseZ, y: waveY, scaleY, transformOrigin: "bottom center", opacity }}
+      style={{
+        width: w,
+        height: h,
+        marginLeft: -w / 2,
+        marginTop: -h / 2,
+        translateZ: baseZ,
+        y: waveY,
+        scaleY,
+        transformOrigin: "bottom center",
+        opacity,
+      }}
     >
-      <div style={{ position:"absolute", inset:0, backgroundImage:`url(${imageUrl})`, backgroundSize:"cover", backgroundPosition:"center" }} />
-      <div style={{ position:"absolute", inset:0, background:gradient, mixBlendMode:"multiply" }} />
-      <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.32) 100%)" }} />
-      <div style={{ position:"absolute", inset:0, borderRadius:"inherit", border:`1px solid rgba(255,255,255,${0.08+t*0.22})`, boxSizing:"border-box" }} />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${imageUrl})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div
+        style={{ position: "absolute", inset: 0, background: gradient, mixBlendMode: "multiply" }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.32) 100%)",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "inherit",
+          border: `1px solid rgba(255,255,255,${0.08 + t * 0.22})`,
+          boxSizing: "border-box",
+        }}
+      />
+    </motion.div>
+  );
+}
+
+/**
+ * PanelSprings — a dedicated component that calls exactly PANEL_COUNT pairs of
+ * useSpring hooks unconditionally at the top level, then passes the values to Panel.
+ * This keeps hooks out of any loop.
+ */
+function PanelSprings({
+  rotY,
+  rotX,
+  getTargets,
+}: {
+  rotY: MotionValue<number>;
+  rotX: MotionValue<number>;
+  getTargets: React.MutableRefObject<{
+    waveY: number[];
+    scaleY: number[];
+  }>;
+}) {
+  // --- All 22 pairs of springs called unconditionally at the top level ---
+  const wY0 = useSpring(0, WAVE_SPRING);  const sY0 = useSpring(1, WAVE_SPRING);
+  const wY1 = useSpring(0, WAVE_SPRING);  const sY1 = useSpring(1, WAVE_SPRING);
+  const wY2 = useSpring(0, WAVE_SPRING);  const sY2 = useSpring(1, WAVE_SPRING);
+  const wY3 = useSpring(0, WAVE_SPRING);  const sY3 = useSpring(1, WAVE_SPRING);
+  const wY4 = useSpring(0, WAVE_SPRING);  const sY4 = useSpring(1, WAVE_SPRING);
+  const wY5 = useSpring(0, WAVE_SPRING);  const sY5 = useSpring(1, WAVE_SPRING);
+  const wY6 = useSpring(0, WAVE_SPRING);  const sY6 = useSpring(1, WAVE_SPRING);
+  const wY7 = useSpring(0, WAVE_SPRING);  const sY7 = useSpring(1, WAVE_SPRING);
+  const wY8 = useSpring(0, WAVE_SPRING);  const sY8 = useSpring(1, WAVE_SPRING);
+  const wY9 = useSpring(0, WAVE_SPRING);  const sY9 = useSpring(1, WAVE_SPRING);
+  const wY10 = useSpring(0, WAVE_SPRING); const sY10 = useSpring(1, WAVE_SPRING);
+  const wY11 = useSpring(0, WAVE_SPRING); const sY11 = useSpring(1, WAVE_SPRING);
+  const wY12 = useSpring(0, WAVE_SPRING); const sY12 = useSpring(1, WAVE_SPRING);
+  const wY13 = useSpring(0, WAVE_SPRING); const sY13 = useSpring(1, WAVE_SPRING);
+  const wY14 = useSpring(0, WAVE_SPRING); const sY14 = useSpring(1, WAVE_SPRING);
+  const wY15 = useSpring(0, WAVE_SPRING); const sY15 = useSpring(1, WAVE_SPRING);
+  const wY16 = useSpring(0, WAVE_SPRING); const sY16 = useSpring(1, WAVE_SPRING);
+  const wY17 = useSpring(0, WAVE_SPRING); const sY17 = useSpring(1, WAVE_SPRING);
+  const wY18 = useSpring(0, WAVE_SPRING); const sY18 = useSpring(1, WAVE_SPRING);
+  const wY19 = useSpring(0, WAVE_SPRING); const sY19 = useSpring(1, WAVE_SPRING);
+  const wY20 = useSpring(0, WAVE_SPRING); const sY20 = useSpring(1, WAVE_SPRING);
+  const wY21 = useSpring(0, WAVE_SPRING); const sY21 = useSpring(1, WAVE_SPRING);
+
+  const waveYSprings = useMemo(
+    () => [wY0,wY1,wY2,wY3,wY4,wY5,wY6,wY7,wY8,wY9,wY10,wY11,wY12,wY13,wY14,wY15,wY16,wY17,wY18,wY19,wY20,wY21],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+  const scaleYSprings = useMemo(
+    () => [sY0,sY1,sY2,sY3,sY4,sY5,sY6,sY7,sY8,sY9,sY10,sY11,sY12,sY13,sY14,sY15,sY16,sY17,sY18,sY19,sY20,sY21],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  // Attach setter functions to the ref so the parent can update springs
+  const setWave = useCallback((targets: number[]) => {
+    targets.forEach((v, i) => waveYSprings[i]?.set(v));
+  }, [waveYSprings]);
+  const setScale = useCallback((targets: number[]) => {
+    targets.forEach((v, i) => scaleYSprings[i]?.set(v));
+  }, [scaleYSprings]);
+
+  // Expose setters in parent ref (runs synchronously on every render — stable because callbacks are memoized)
+  (getTargets as React.MutableRefObject<{
+    waveY: number[];
+    scaleY: number[];
+    setWave: (t: number[]) => void;
+    setScale: (t: number[]) => void;
+  }>).current.setWave = setWave;
+  (getTargets as React.MutableRefObject<{
+    waveY: number[];
+    scaleY: number[];
+    setWave: (t: number[]) => void;
+    setScale: (t: number[]) => void;
+  }>).current.setScale = setScale;
+
+  return (
+    <motion.div
+      style={{ rotateY: rotY, rotateX: rotX, transformStyle: "preserve-3d", position: "relative", width: 0, height: 0 }}
+    >
+      {waveYSprings.map((waveY, i) => (
+        <Panel key={i} index={i} total={PANEL_COUNT} waveY={waveY} scaleY={scaleYSprings[i]} />
+      ))}
     </motion.div>
   );
 }
 
 export default function StackedPanels() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isHovering = useRef(false);
-  const waveYSprings = Array.from({ length: PANEL_COUNT }, () => useSpring(0, WAVE_SPRING));
-  const scaleYSprings = Array.from({ length: PANEL_COUNT }, () => useSpring(1, WAVE_SPRING));
   const rotY = useSpring(-42, SCENE_SPRING);
   const rotX = useSpring(18, SCENE_SPRING);
+
+  const springsRef = useRef<{
+    waveY: number[];
+    scaleY: number[];
+    setWave: (t: number[]) => void;
+    setScale: (t: number[]) => void;
+  }>({ waveY: [], scaleY: [], setWave: () => {}, setScale: () => {} });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
-    isHovering.current = true;
     const cx = (e.clientX - rect.left) / rect.width;
     const cy = (e.clientY - rect.top) / rect.height;
     rotY.set(-42 + (cx - 0.5) * 14);
     rotX.set(18 + (cy - 0.5) * -10);
     const cursorCardPos = cx * (PANEL_COUNT - 1);
-    waveYSprings.forEach((spring, i) => {
+    const waveTargets = Array.from({ length: PANEL_COUNT }, (_, i) => {
       const dist = Math.abs(i - cursorCardPos);
-      spring.set(-Math.exp(-(dist*dist)/(2*SIGMA*SIGMA)) * 70);
+      return -Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA)) * 70;
     });
-    scaleYSprings.forEach((spring, i) => {
+    const scaleTargets = Array.from({ length: PANEL_COUNT }, (_, i) => {
       const dist = Math.abs(i - cursorCardPos);
-      spring.set(0.35 + Math.exp(-(dist*dist)/(2*SIGMA*SIGMA)) * 0.65);
+      return 0.35 + Math.exp(-(dist * dist) / (2 * SIGMA * SIGMA)) * 0.65;
     });
-  }, [rotY, rotX, waveYSprings, scaleYSprings]);
+    springsRef.current.setWave(waveTargets);
+    springsRef.current.setScale(scaleTargets);
+  }, [rotY, rotX]);
 
   const handleMouseLeave = useCallback(() => {
-    isHovering.current = false;
-    rotY.set(-42); rotX.set(18);
-    waveYSprings.forEach(s => s.set(0));
-    scaleYSprings.forEach(s => s.set(1));
-  }, [rotY, rotX, waveYSprings, scaleYSprings]);
+    rotY.set(-42);
+    rotX.set(18);
+    springsRef.current.setWave(Array(PANEL_COUNT).fill(0));
+    springsRef.current.setScale(Array(PANEL_COUNT).fill(1));
+  }, [rotY, rotX]);
 
   return (
-    <div ref={containerRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="relative w-full h-full flex items-center justify-center select-none"
-      style={{ perspective: "900px" }}>
-      <motion.div style={{ rotateY: rotY, rotateX: rotX, transformStyle:"preserve-3d", position:"relative", width:0, height:0 }}>
-        {Array.from({ length: PANEL_COUNT }).map((_, i) => (
-          <Panel key={i} index={i} total={PANEL_COUNT} waveY={waveYSprings[i]} scaleY={scaleYSprings[i]} />
-        ))}
-      </motion.div>
+      style={{ perspective: "900px" }}
+    >
+      <PanelSprings rotY={rotY} rotX={rotX} getTargets={springsRef as React.MutableRefObject<{waveY: number[]; scaleY: number[]; setWave: (t: number[]) => void; setScale: (t: number[]) => void;}>} />
     </div>
   );
 }

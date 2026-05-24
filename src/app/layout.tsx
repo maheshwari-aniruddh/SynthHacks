@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, JetBrains_Mono } from 'next/font/google';
 import "./globals.css";
-
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', style: ['normal','italic'] });
-const inter = Inter({ subsets: ['latin'], variable: '--font-body' });
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
+import { DnsRedirect } from "@/components/dns-redirect";
 
 export const metadata: Metadata = {
   title: "radpi",
@@ -20,11 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
-        className={`${playfair.variable} ${inter.variable} ${mono.variable} font-body antialiased bg-surface-2 text-ink`}
-        suppressHydrationWarning
+        className="font-body antialiased bg-surface-2 text-ink"
       >
+        <DnsRedirect />
         {children}
       </body>
     </html>

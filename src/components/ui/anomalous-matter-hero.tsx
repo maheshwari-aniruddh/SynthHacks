@@ -31,7 +31,7 @@ export function GenerativeArtScene() {
       uniforms: {
         time: { value: 0 },
         pointLightPos: { value: new THREE.Vector3(0, 0, 5) },
-        color: { value: new THREE.Color("#38bdf8") },
+        color: { value: new THREE.Color("#e05285") },
         mouse: { value: new THREE.Vector2(0, 0) },
         mouseStrength: { value: 0.0 },
       },
@@ -123,9 +123,12 @@ export function GenerativeArtScene() {
                     float fresnel = 1.0 - dot(normal, vec3(0.0, 0.0, 1.0));
                     fresnel = pow(fresnel, 2.0);
 
-                    // Subtle brightening when mouse is active
-                    float boost = 1.0 + mouseStrength * 0.3;
-                    vec3 finalColor = color * diffuse * boost + color * fresnel * 0.5;
+                    // Smooth ambient fill (minimum 0.38 light) so the dark side remains luminous and colorful
+                    float ambientFactor = diffuse * 0.62 + 0.38;
+                    float boost = 1.0 + mouseStrength * 0.35;
+                    
+                    // Blend final lit color with a vibrant edge fresnel halo using the uniform color
+                    vec3 finalColor = color * ambientFactor * boost + color * fresnel * 0.55;
 
                     gl_FragColor = vec4(finalColor, 1.0);
                 }`,

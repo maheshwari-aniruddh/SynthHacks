@@ -31,7 +31,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
+.env.local
+.env.*.local
 
 # vercel
 .vercel
@@ -43,14 +45,31 @@ next-env.d.ts
 
 # RadPi — keep weights, venv, and big media out
 backend/venv/
+backend/wheels/
+backend/patients.db
+backend/*.db
 backend/__pycache__/
 backend/**/__pycache__/
+backend/models/__pycache__/
 backend/static/
+static/
 backend/weights/
 backend/*.log
+backend/backend.log
+backend/startup.log
+backend/backend_output.log
 backend/temp_*
+backend/temp_*.png
+backend/temp_*.dcm
+backend/temp_*.jpg
 backend/yolov8n.pt
 Models/
+sample_test_images/
+scratch/
+.antigravitycli/
+.gstack/
+tsconfig.tsbuildinfo
+next-env.d.ts
 *.MOV
 *.mov
 *.mp4
@@ -73,27 +92,6 @@ CLAUDE.md.*.bak
 # scratch / generated docs (big PDFs)
 *.pdf
 !RADPI_MODEL_COMPARISON.pdf
-
-# RadPi-specific — big binary files
-backend/venv/
-backend/__pycache__/
-backend/models/__pycache__/
-backend/static/
-backend/weights/
-backend/*.log
-backend/temp_*
-Models/
-*.MOV
-*.mp4
-*.mov
-*.mp3
-*.pt
-*.h5
-*.pth
-*.bin
-*.safetensors
-*.hdf5
-*.onnx
 
 # Logs
 *.log

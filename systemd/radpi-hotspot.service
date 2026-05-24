@@ -1,0 +1,20 @@
+[Unit]
+Description=RadPi Hotspot Activator
+Documentation=https://github.com/maheshwari-aniruddh/radpi
+# Ensure NetworkManager is fully up before we bring up the hotspot
+After=NetworkManager.service
+Before=radpi-backend.service radpi-frontend.service
+
+[Service]
+Type=oneshot
+# Force the hotspot AP connection up, overriding any client connections
+ExecStart=/usr/bin/nmcli connection up RadPi-Hotspot
+# Apply transparent DNS redirection rules
+ExecStartPost=/usr/local/bin/radpi-dns-redirect.sh
+# Clean up transparent DNS redirection rules on stop
+ExecStop=/usr/local/bin/radpi-dns-redirect-stop.sh
+RemainAfterExit=yes
+User=root
+
+[Install]
+WantedBy=multi-user.target

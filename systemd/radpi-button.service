@@ -1,0 +1,21 @@
+[Unit]
+Description=RadPi Power Button Handler
+Documentation=https://github.com/maheshwari-aniruddh/radpi
+# Start early — before networking, so the LED heartbeat is set immediately
+After=local-fs.target
+Before=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/radpi/venv-button/bin/python /home/pi/radpi/button_handler.py
+Restart=on-failure
+RestartSec=3
+# Must run as root to access /dev/input and run systemctl
+User=root
+StandardOutput=journal
+StandardError=journal
+# Make /tmp writable for the state file
+PrivateTmp=no
+
+[Install]
+WantedBy=multi-user.target

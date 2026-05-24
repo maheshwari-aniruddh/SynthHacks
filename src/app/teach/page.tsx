@@ -3,31 +3,31 @@
 import { useRouter } from "next/navigation";
 import { 
   ArrowLeft, ArrowRight, Upload, Edit3, Activity, Shield, Stethoscope, GraduationCap,
-  Brain, Wind, Eye, Activity as TbIcon, ScanFace, Bone
+  Wind, Flame, Droplet, Activity as TbIcon, Bone
 } from "lucide-react";
-import { AnomalousMatterHero } from "@/components/ui/anomalous-matter-hero";
+import StackedPanels from "@/components/ui/stacked-panels";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import React from "react";
 
 const TEACH_MODULES = [
   { 
-    slug: "brain", 
-    name: "Brain MRI", 
-    desc: "Tumor detection and lesion classification in neuroimaging.",
-    icon: Brain 
-  },
-  { 
-    slug: "chest", 
+    slug: "chest_xray", 
     name: "Chest X-Ray", 
     desc: "Pathology identification across pulmonary radiographs.",
     icon: Wind 
   },
   { 
-    slug: "dr", 
-    name: "Diabetic Retinopathy", 
-    desc: "Grading and classification of fundus imaging.",
-    icon: Eye 
+    slug: "bone_fracture", 
+    name: "Bone Fracture", 
+    desc: "Growth analysis and bone fracture/abnormality detection.",
+    icon: Bone 
+  },
+  { 
+    slug: "wound_burn", 
+    name: "Wound & Burn Care", 
+    desc: "Acute wound infection classification and burn-depth grading.",
+    icon: Flame 
   },
   { 
     slug: "tb", 
@@ -36,48 +36,15 @@ const TEACH_MODULES = [
     icon: TbIcon 
   },
   { 
-    slug: "skin", 
-    name: "Skin Lesion", 
-    desc: "Dermatological classification of skin abnormalities.",
-    icon: ScanFace 
-  },
-  { 
-    slug: "bone", 
-    name: "Pediatric Bone", 
-    desc: "Growth analysis and bone abnormality detection.",
-    icon: Bone 
+    slug: "malaria", 
+    name: "Malaria Screening", 
+    desc: "Giemsa-stained thin blood smear cell screening.",
+    icon: Droplet 
   },
 ];
 
 export default function TeachLanding() {
   const router = useRouter();
-
-  // Parallax Effect Values based on exact logic requested
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const springConfig = { stiffness: 100, damping: 30 };
-  
-  // rotateY = mouseX / 40
-  // rotateX = -(mouseY / 40)
-  const rotateX = useSpring(useTransform(mouseY, (val) => -(val / 40)), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, (val) => (val / 40)), springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    // Calculate the center of the screen
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    
-    // Calculate distance from center
-    mouseX.set(e.clientX - centerX);
-    mouseY.set(e.clientY - centerY);
-  };
-
-  const handleMouseLeave = () => {
-    // Reset to neutral position
-    mouseX.set(0);
-    mouseY.set(0);
-  };
 
   return (
     <div className="relative min-h-screen bg-teach-bg text-teach-text-primary selection:bg-teach-accent-bright/20 selection:text-teach-accent-bright flex flex-col font-sans overflow-x-hidden">
@@ -102,8 +69,6 @@ export default function TeachLanding() {
         
         {/* Hero Section - Split Layout */}
         <section 
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
           className="relative w-full max-w-7xl mx-auto px-6 lg:px-12 pt-20 lg:pt-32 pb-12 flex flex-col lg:flex-row items-center gap-16 lg:gap-24 overflow-hidden"
         >
           {/* Left Side: Content */}
@@ -117,7 +82,7 @@ export default function TeachLanding() {
             </h1>
 
             <p className="text-lg md:text-xl text-teach-text-secondary leading-relaxed max-w-2xl mb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 pointer-events-auto">
-              Practice scan interpretation across six modalities, then compare against the same on-device models RadPi deploys clinically. Read first, reveal second.
+              Practice scan interpretation across five key emergency modules, then compare against the same on-device models RadPi deploys clinically. Read first, reveal second.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 pointer-events-auto">
@@ -134,26 +99,14 @@ export default function TeachLanding() {
             </div>
           </div>
 
-          {/* Right Side: 3D Graphic */}
-          <div 
-            className="w-full lg:w-2/5 aspect-square relative animate-in fade-in zoom-in-95 duration-1000 delay-200"
-            style={{ perspective: "1000px" }}
-          >
-            <motion.div 
-              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="relative w-full h-full group flex items-center justify-center"
-            >
-              <div className="w-full h-full scale-[1.8]">
-                <AnomalousMatterHero className="!bg-transparent" />
-              </div>
-              
-              {/* Overlay HUD elements - flattened */}
-              <div className="absolute top-0 left-0 z-20 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                <div className="px-3 py-1 bg-teach-bg border border-teach-border text-[9px] font-mono text-teach-accent-bright uppercase tracking-widest">
-                  Anomaly Detection v4.2
-                </div>
-              </div>
-            </motion.div>
+          {/* Right Side: Moving Files Card Deck */}
+          <div className="w-full lg:w-2/5 h-[500px] lg:h-[700px] relative flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-1000 delay-200">
+            <div className="absolute inset-0">
+              <StackedPanels />
+            </div>
+            <div className="absolute bottom-0 font-mono text-[11px] text-teach-text-muted uppercase tracking-wider">
+              Move cursor to interact
+            </div>
           </div>
         </section>
 
@@ -249,7 +202,7 @@ export default function TeachLanding() {
                    INT8-quantized models, CPU-only inference on Pi 5. No cloud, no data ever leaves the device.
                  </p>
                  <button 
-                  onClick={() => router.push("/teach/brain")}
+                  onClick={() => router.push("/teach/chest_xray")}
                   className="bg-teach-text-primary text-teach-bg px-10 py-4 rounded-xl font-bold hover:bg-teach-accent-bright transition-all shadow-xl active:scale-95"
                  >
                    Launch Training Module
