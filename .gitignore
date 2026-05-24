@@ -89,9 +89,9 @@ next-env.d.ts
 .mcp.json
 CLAUDE.md.*.bak
 
-# scratch / generated docs (big PDFs)
+# scratch / generated docs
+*.md
 *.pdf
-!RADPI_MODEL_COMPARISON.pdf
 
 # Logs
 *.log
